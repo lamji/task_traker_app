@@ -25,7 +25,7 @@ import 'react-quill/dist/quill.snow.css'; // Import the styles
 
 import dynamic from 'next/dynamic';
 import moment from 'moment';
-import { getData, postData, putData } from '@/common/apiHooks';
+import { getData, postData, putData, deleteData } from '@/common/apiHooks';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import tableStyles from './tableStyles';
 
@@ -58,7 +58,7 @@ const EditableTable: React.FC = () => {
   const [selectedRow, setSelectedRow] = useState<Row | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [value, setValue] = useState('');
-
+  const [watcher, setWatcher] = useState(false);
   const [dateNow, setDateNow] = useState(moment().format('LL'));
   const [timeTracker, setTimeTracker] = useState('');
   const isToday = moment().format('LL') === dateNow;
@@ -181,9 +181,18 @@ const EditableTable: React.FC = () => {
     }
   };
 
+  const deleteItem = async (id: any) => {
+    try {
+      await deleteData(id);
+      setWatcher(!watcher);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     handleGetData();
-  }, [dateNow]);
+  }, [dateNow, watcher]);
 
   return (
     <div>
@@ -337,7 +346,7 @@ const EditableTable: React.FC = () => {
                     </IconButton>
                   </TableCell>
                   <TableCell sx={classes.tabCell}>
-                    <IconButton>
+                    <IconButton onClick={() => deleteItem(row._id)}>
                       <CloseOutlinedIcon />
                     </IconButton>
                   </TableCell>

@@ -14,3 +14,8 @@ export const putData = async (id: any, data: any) => {
   const response = await instance.put(`/rows/${id}`, data);
   return response.data;
 };
+
+export const deleteData = async (id: any) => {
+  const response = await instance.delete(`/rows/${id}`);
+  return response.data;
+};
