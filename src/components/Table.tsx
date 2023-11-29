@@ -170,9 +170,11 @@ const EditableTable: React.FC = () => {
 
   const handleGetData = async () => {
     const params = {
-      created_at: moment(dateNow, 'MMMM DD, YYYY').format() || undefined,
-      // created_at: undefined,
+      created_at: moment(dateNow, 'MMMM DD, YYYY').startOf('day').utc().format() || undefined,
     };
+
+    console.log('value', params);
+
     try {
       const { data } = await getData(params);
       setData(data);
@@ -231,6 +233,7 @@ const EditableTable: React.FC = () => {
                   color: 'black',
                   mt: 2,
                   mb: 5,
+                  background: 'white',
                   '&:hover': {
                     background: 'white',
                   },
@@ -381,6 +384,7 @@ const EditableTable: React.FC = () => {
             color: 'black',
             mt: 2,
             mb: 5,
+            background: 'white',
             '&:hover': {
               background: 'white',
             },
