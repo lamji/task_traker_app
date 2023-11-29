@@ -81,8 +81,8 @@ const EditableTable: React.FC = () => {
     setData((prevData) => [...prevData, newData]);
 
     try {
-      const res = await postData(newData);
-      console.log(res); // Handle the response as needed
+      await postData(newData);
+      setWatcher(!watcher);
     } catch (error) {
       console.error(error); // Handle the error as needed
     }
