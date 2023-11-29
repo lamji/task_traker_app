@@ -200,7 +200,7 @@ const EditableTable: React.FC = () => {
 
   return (
     <div>
-      <Box sx={{ width: '500px', margin: '80px auto 10px auto' }}>
+      <Box sx={{ width: '500px', margin: '10px auto 10px auto' }}>
         <Calendar showDetailsHandle={showDetailsHandle} />
       </Box>
       {data.length === 0 ? (
