@@ -27,6 +27,7 @@ import dynamic from 'next/dynamic';
 import moment from 'moment';
 import { getData, postData, putData, deleteData } from '@/common/apiHooks';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import AddIcon from '@mui/icons-material/Add';
 import tableStyles from './tableStyles';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
@@ -61,7 +62,7 @@ const EditableTable: React.FC = () => {
   const [watcher, setWatcher] = useState(false);
   const [dateNow, setDateNow] = useState(moment().format('LL'));
   const [timeTracker, setTimeTracker] = useState('');
-  const isToday = moment().format('LL') === dateNow;
+  const isAddButtonDisabled = moment(dateNow, 'MMMM DD, YYYY').isAfter(moment(), 'day');
   const showDetailsHandle = (dayStr: any) => {
     setDateNow(moment(dayStr).format('LL'));
   };
@@ -76,6 +77,7 @@ const EditableTable: React.FC = () => {
       tracker: '',
       status: 'Not Logged',
       notes: '',
+      created_at: moment(dateNow).format('LL'),
     };
 
     setData((prevData) => [...prevData, newData]);
@@ -198,50 +200,13 @@ const EditableTable: React.FC = () => {
 
   return (
     <div>
-      <Typography
-        variant="h4"
-        fontWeight={700}
-        pt={4}
-        sx={{ position: 'fixed', background: 'white', width: '100%', zIndex: 999 }}
-      >
-        TIME:{calculateTotalTime()}
-      </Typography>
-      <Typography
-        sx={{
-          position: 'fixed',
-          marginTop: '70px',
-          marginLeft: '5px',
-          background: 'white',
-          width: '100%',
-          zIndex: 998,
-        }}
-      >
-        {dateNow}{' '}
-      </Typography>
       <Box sx={{ width: '500px', margin: '80px auto 10px auto' }}>
         <Calendar showDetailsHandle={showDetailsHandle} />
       </Box>
       {data.length === 0 ? (
         <>
-          <Box sx={{ textAlign: 'center' }}>
+          <Box sx={{ textAlign: 'center', mb: 5 }}>
             <Typography>No Records</Typography>
-            {isToday && (
-              <Button
-                variant="contained"
-                onClick={handleAddRow}
-                sx={{
-                  color: 'black',
-                  mt: 2,
-                  mb: 5,
-                  background: 'white',
-                  '&:hover': {
-                    background: 'white',
-                  },
-                }}
-              >
-                Add Row
-              </Button>
-            )}
           </Box>
         </>
       ) : (
@@ -375,24 +340,35 @@ const EditableTable: React.FC = () => {
           />
         </div>
       </Drawer>
-
-      {data.length !== 0 && isToday && (
-        <Button
-          variant="contained"
-          onClick={handleAddRow}
+      <Box sx={{ y: 2, borderTop: '1px solid grey', display: 'flex', alignItems: 'center' }}>
+        <Box
           sx={{
-            color: 'black',
-            mt: 2,
-            mb: 5,
-            background: 'white',
-            '&:hover': {
-              background: 'white',
-            },
+            p: '10px',
+            borderRight: '1px solid gray',
+            borderRadius: '70% 30% 100% 0% / 0% 100% 0% 100% ',
+            width: '60%',
           }}
         >
-          Add Row
-        </Button>
-      )}
+          <IconButton onClick={handleAddRow} disabled={isAddButtonDisabled}>
+            <AddIcon style={{ fontSize: '50px' }} />
+          </IconButton>
+        </Box>
+        <Box
+          sx={{
+            borderBottom: '1px solid grey',
+            borderRight: '1px solid grey',
+            width: '40%',
+            p: 1,
+            borderRadius: 1,
+          }}
+        >
+          <Typography sx={{ fontWeight: 700, fontSize: '28px', ml: 3 }}>
+            {calculateTotalTime()}
+          </Typography>
+          <Typography sx={{ ml: 3 }}> {dateNow} </Typography>
+        </Box>
+      </Box>
+      <Box sx={{ height: '50px' }}></Box>
     </div>
   );
 };

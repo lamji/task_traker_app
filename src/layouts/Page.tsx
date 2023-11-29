@@ -14,7 +14,7 @@ function Page({ title, className, children }: cat.PageProps): JSX.Element {
       <Head>
         <title>{pageTitle}</title>
       </Head>
-      {/* <Header /> */}
+      <Header />
       <div>
         <article className={className}>{children}</article>
       </div>
