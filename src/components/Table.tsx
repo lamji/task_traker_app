@@ -77,7 +77,7 @@ const EditableTable: React.FC = () => {
       tracker: '',
       status: 'Not Logged',
       notes: '',
-      created_at: moment(dateNow).format('LL'),
+      created_at: moment(dateNow, 'MMMM DD, YYYY').startOf('day').utc().format(),
     };
 
     setData((prevData) => [...prevData, newData]);
