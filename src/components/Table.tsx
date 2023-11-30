@@ -230,6 +230,7 @@ const EditableTable: React.FC = () => {
                   <TableCell sx={classes.tabCell}>
                     <TextField
                       type="text"
+                      size="small"
                       value={row.name}
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         handleEdit(row._id, 'name', e.target.value)
@@ -247,6 +248,7 @@ const EditableTable: React.FC = () => {
                   <TableCell sx={classes.tabCell}>
                     <TextField
                       type="text"
+                      size="small"
                       value={row.ticket}
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         handleEdit(row._id, 'ticket', e.target.value)
@@ -258,6 +260,7 @@ const EditableTable: React.FC = () => {
                   </TableCell>
                   <TableCell sx={classes.tabCell}>
                     <TextField
+                      size="small"
                       type="datetime-local"
                       value={moment(row.time_start as string).format('YYYY-MM-DDTHH:mm')}
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -270,6 +273,7 @@ const EditableTable: React.FC = () => {
                   </TableCell>
                   <TableCell sx={classes.tabCell}>
                     <TextField
+                      size="small"
                       type="datetime-local"
                       value={moment(row.time_end as string).format('YYYY-MM-DDTHH:mm')}
                       onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -283,6 +287,7 @@ const EditableTable: React.FC = () => {
                   <TableCell sx={classes.tabCell}>
                     <TextField
                       type="text"
+                      size="small"
                       value={row.tracker || '00:00:00'}
                       disabled
                       sx={{
@@ -296,6 +301,7 @@ const EditableTable: React.FC = () => {
                   </TableCell>
                   <TableCell sx={classes.tabCell}>
                     <Select
+                      size="small"
                       value={row.status}
                       onChange={(e: any) => handleEdit(row._id, 'status', e.target.value as string)}
                       sx={{

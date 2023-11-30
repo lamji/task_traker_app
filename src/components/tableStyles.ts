@@ -5,6 +5,7 @@ export default function tableStyles() {
       fontSize: '15px',
     },
     tabCell: {
+      p: '5px',
       '.MuiTableCell-root': {
         p: 0,
       },
