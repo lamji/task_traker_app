@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { useRouter } from 'next/router'
 
-export default function BasicMenu({ name }: { name: string }) {
+export default function ProjectMenu({ name }: { name: string }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
    const router = useRouter()
@@ -42,18 +42,18 @@ export default function BasicMenu({ name }: { name: string }) {
 
       <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem sx={{ '&:hover': { backgroundColor: '#e0e0e0' } }}>
-          <Link href="/add-status" style={{ textDecoration: 'none', color: 'black', width: "100%" }}>
-            Add Status
-          </Link>
-        </MenuItem>
-        <MenuItem sx={{ '&:hover': { backgroundColor: '#e0e0e0' } }}>
-          <Link href="/notes" style={{ textDecoration: 'none', color: 'black', width: "100%" }}>
-            Update Ticket
+          <Link href="/notes/sla" style={{ textDecoration: 'none', color: 'black', width: "100%" }}>
+            Loyalty App
           </Link>
         </MenuItem>
         <MenuItem sx={{ '&:hover': { backgroundColor: '#e0e0e0' } }}>
           <Link href="/notes/srng" style={{ textDecoration: 'none', color: 'black', width: "100%" }}>
-            Notes
+           Serino Gateway
+          </Link>
+        </MenuItem>
+        <MenuItem sx={{ '&:hover': { backgroundColor: '#e0e0e0' } }}>
+          <Link href="/notes/trecs" style={{ textDecoration: 'none', color: 'black', width: "100%" }}>
+            Trecs
           </Link>
         </MenuItem>
       </Menu>

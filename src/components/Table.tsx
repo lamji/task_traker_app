@@ -16,6 +16,7 @@ import {
   IconButton,
   Typography,
   Box,
+  InputAdornment,
 } from '@mui/material';
 
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -254,7 +255,24 @@ const EditableTable: React.FC = () => {
                         handleEdit(row._id, 'ticket', e.target.value)
                       }
                       sx={{
-                        width: '110px',
+                        width: '150px',
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <Typography
+                              sx={{
+                                background: '#3081D0',
+                                color: 'white',
+                                fontSize: '12px',
+                                p: '3px 20px',
+                                borderRadius: '5px',
+                              }}
+                            >
+                              IP
+                            </Typography>
+                          </InputAdornment>
+                        ),
                       }}
                     />
                   </TableCell>
@@ -310,8 +328,40 @@ const EditableTable: React.FC = () => {
                         color: row.status === 'Logged' ? 'white' : 'black',
                       }}
                     >
-                      <MenuItem value="Logged">Logged</MenuItem>
-                      <MenuItem value="Not Logged">Not Logged</MenuItem>
+                      <MenuItem
+                        value="Logged"
+                        sx={{
+                          background: '#6db599',
+                          m: '10px',
+                          color: 'white',
+                          borderRadius: '5px',
+                          '&:hover': {
+                            background: '#6db599',
+                          },
+                          '&.Mui-selected': {
+                            backgroundColor: '#6db599 !important',
+                          },
+                        }}
+                      >
+                        Logged
+                      </MenuItem>
+                      <MenuItem
+                        value="Not Logged"
+                        sx={{
+                          backgroundColor: '#e0e0e0',
+                          m: '10px',
+                          color: 'black',
+                          borderRadius: '5px',
+                          '&:hover': {
+                            backgroundColor: '#e0e0e0',
+                          },
+                          '&.Mui-selected': {
+                            backgroundColor: '#e0e0e0 !important',
+                          },
+                        }}
+                      >
+                        Not Logged
+                      </MenuItem>
                     </Select>
                   </TableCell>
                   <TableCell sx={classes.tabCell}>
