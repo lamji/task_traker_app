@@ -17,6 +17,7 @@ import {
   Typography,
   Box,
   InputAdornment,
+  Tooltip 
 } from '@mui/material';
 
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -30,6 +31,7 @@ import { getData, postData, putData, deleteData } from '@/common/apiHooks';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import tableStyles from './tableStyles';
+import helper from "./helper"
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   loading: () => <p>Loading ReactQuill...</p>,
@@ -67,7 +69,8 @@ const EditableTable: React.FC = () => {
   const showDetailsHandle = (dayStr: any) => {
     setDateNow(moment(dayStr).format('LL'));
   };
-
+  console.log("helper", helper())
+  const {status} = helper()
   const handleAddRow = async () => {
     const newData = {
       id: Date.now(),
@@ -262,14 +265,15 @@ const EditableTable: React.FC = () => {
                           <InputAdornment position="start">
                             <Typography
                               sx={{
-                                background: '#3081D0',
+                                background: '#A9A9A9',
                                 color: 'white',
                                 fontSize: '12px',
-                                p: '3px 20px',
-                                borderRadius: '5px',
+                                height:"20px",
+                                width: "20px",
+                                borderRadius: '50px',
                               }}
                             >
-                              IP
+                             
                             </Typography>
                           </InputAdornment>
                         ),
@@ -418,10 +422,39 @@ const EditableTable: React.FC = () => {
             borderRadius: 1,
           }}
         >
-          <Typography sx={{ fontWeight: 700, fontSize: '28px', ml: 3 }}>
-            {calculateTotalTime()}
-          </Typography>
-          <Typography sx={{ ml: 3 }}> {dateNow} </Typography>
+          <Box sx={{
+            display: "flex"
+          }}>
+          <Box>
+              <Typography sx={{ fontWeight: 700, fontSize: '28px', ml: 3 }}>
+                {calculateTotalTime()}
+              </Typography>
+              <Typography sx={{ ml: 3 }}> {dateNow} </Typography>
+          </Box>
+         
+          <Box sx={{ml:3, mt: "20px", textAlign: "center", display: "flex"}}>
+             {status.map((data) => (
+                <Tooltip key={data.key} title={data.label} arrow>
+                  <Box ml={2}>
+                    <Box
+                      sx={{
+                        background: data.color,
+                        color: 'white',
+                        fontSize: '12px',
+                        height: '20px',
+                        width: '20px',
+                        borderRadius: '50px',
+                      }}
+                    />
+                    <Typography sx={{ textTransform: 'uppercase', fontSize: '12px', mt: '5px' }}>
+                      {data.key}
+                    </Typography>
+                  </Box>
+                </Tooltip>
+              ))}
+          </Box>
+          </Box>
+         
         </Box>
       </Box>
       <Box sx={{ height: '50px' }}></Box>
