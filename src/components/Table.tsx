@@ -115,6 +115,7 @@ const EditableTable: React.FC = () => {
       prevData.map((row) => {
         if (row._id === id) {
           const updatedRow = { ...row, [field]: value };
+          updatedRow.isSaving = 'not_saved';
 
           if (field === 'time_start' || field === 'time_end') {
             const timeStart = new Date(updatedRow.time_start).getTime();
@@ -126,8 +127,20 @@ const EditableTable: React.FC = () => {
             const seconds = Math.floor(differenceInSeconds % 60);
 
             updatedRow.tracker = `${hours}:${minutes}:${seconds}`;
-            updatedRow.isSaving = 'not_saved';
           }
+
+          return updatedRow;
+        }
+        return row;
+      }),
+    );
+  };
+
+  const handleEditSave = async (id: number, field: keyof Row, value: string | number) => {
+    setData((prevData) =>
+      prevData.map((row) => {
+        if (row._id === id) {
+          const updatedRow = { ...row, [field]: value };
 
           return updatedRow;
         }
@@ -139,7 +152,7 @@ const EditableTable: React.FC = () => {
   const handleSaved = async (row: any) => {
     console.log('row', row);
     // setIsLoading(true);
-    handleEdit(row._id, 'isSaving', 'saving');
+    handleEditSave(row._id, 'isSaving', 'saving');
     const updatedData = {
       id: row?.id,
       name: row?.name,
@@ -156,7 +169,7 @@ const EditableTable: React.FC = () => {
       console.log(error);
     } finally {
       setTimeout(() => {
-        handleEdit(row._id, 'isSaving', 'saved');
+        handleEditSave(row._id, 'isSaving', 'saved');
       }, 500);
     }
   };
