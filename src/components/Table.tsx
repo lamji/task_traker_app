@@ -20,6 +20,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
 
 import DescriptionIcon from '@mui/icons-material/Description';
 import 'react-quill/dist/quill.snow.css'; // Import the styles
@@ -403,21 +404,16 @@ const EditableTable: React.FC = () => {
                   </TableCell>
                   <TableCell sx={classes.tabCell}>
                     <IconButton onClick={() => handleSaved(row)}>
-                      {/* {row?.isSaving ? (
-                        <Typography sx={{ fontSize: '9px' }}>Saving...</Typography>
-                      ) : (
-                        <AddTaskIcon />
-                      )} */}
                       {row?.isSaving ? (
                         row?.isSaving === 'saving' ? (
                           <Typography sx={{ fontSize: '9px' }}>Saving...</Typography>
                         ) : row?.isSaving === 'not_saved' ? (
                           <AddTaskIcon />
                         ) : (
-                          <Typography sx={{ fontSize: '9px' }}>Saved</Typography>
+                          <CloudDoneIcon />
                         )
                       ) : (
-                        <Typography sx={{ fontSize: '9px' }}>Saved</Typography>
+                        <CloudDoneIcon />
                       )}
                     </IconButton>
                   </TableCell>
