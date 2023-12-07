@@ -84,7 +84,7 @@ const EditableTable: React.FC = () => {
       tracker: '',
       status: 'Not Logged',
       notes: '',
-      isSaved: false,
+      isSaving: 'not_saved',
       created_at: moment(dateNow, 'MMMM DD, YYYY').startOf('day').utc().format(),
     };
 
@@ -126,7 +126,7 @@ const EditableTable: React.FC = () => {
             const seconds = Math.floor(differenceInSeconds % 60);
 
             updatedRow.tracker = `${hours}:${minutes}:${seconds}`;
-            setTimeTracker(updatedRow.tracker);
+            updatedRow.isSaving = 'not_saved';
           }
 
           return updatedRow;
@@ -138,7 +138,8 @@ const EditableTable: React.FC = () => {
 
   const handleSaved = async (row: any) => {
     console.log('row', row);
-    setIsLoading(true);
+    // setIsLoading(true);
+    handleEdit(row._id, 'isSaving', 'saving');
     const updatedData = {
       id: row?.id,
       name: row?.name,
@@ -154,7 +155,9 @@ const EditableTable: React.FC = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        handleEdit(row._id, 'isSaving', 'saved');
+      }, 500);
     }
   };
 
@@ -387,10 +390,21 @@ const EditableTable: React.FC = () => {
                   </TableCell>
                   <TableCell sx={classes.tabCell}>
                     <IconButton onClick={() => handleSaved(row)}>
-                      {isLoading ? (
+                      {/* {row?.isSaving ? (
                         <Typography sx={{ fontSize: '9px' }}>Saving...</Typography>
                       ) : (
                         <AddTaskIcon />
+                      )} */}
+                      {row?.isSaving ? (
+                        row?.isSaving === 'saving' ? (
+                          <Typography sx={{ fontSize: '9px' }}>Saving...</Typography>
+                        ) : row?.isSaving === 'not_saved' ? (
+                          <AddTaskIcon />
+                        ) : (
+                          <Typography sx={{ fontSize: '9px' }}>Saved</Typography>
+                        )
+                      ) : (
+                        <Typography sx={{ fontSize: '9px' }}>Saved</Typography>
                       )}
                     </IconButton>
                   </TableCell>
