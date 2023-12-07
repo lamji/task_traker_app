@@ -19,6 +19,7 @@ import {
   InputAdornment,
   Tooltip,
 } from '@mui/material';
+import AddTaskIcon from '@mui/icons-material/AddTask';
 
 import DescriptionIcon from '@mui/icons-material/Description';
 import 'react-quill/dist/quill.snow.css'; // Import the styles
@@ -58,6 +59,7 @@ interface Row {
 const EditableTable: React.FC = () => {
   const classes = tableStyles();
   const [data, setData] = useState<Row[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [selectedRow, setSelectedRow] = useState<Row | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -71,7 +73,21 @@ const EditableTable: React.FC = () => {
   };
   console.log('helper', helper());
   const { status } = helper();
+
   const handleAddRow = async () => {
+    const newDataLocal = {
+      id: Date.now(),
+      name: '',
+      ticket: '',
+      time_start: '',
+      time_end: '',
+      tracker: '',
+      status: 'Not Logged',
+      notes: '',
+      isSaved: false,
+      created_at: moment(dateNow, 'MMMM DD, YYYY').startOf('day').utc().format(),
+    };
+
     const newData = {
       id: Date.now(),
       name: '',
@@ -84,7 +100,7 @@ const EditableTable: React.FC = () => {
       created_at: moment(dateNow, 'MMMM DD, YYYY').startOf('day').utc().format(),
     };
 
-    setData((prevData) => [...prevData, newData]);
+    setData((prevData) => [...prevData, newDataLocal]);
 
     try {
       await postData(newData);
@@ -110,13 +126,6 @@ const EditableTable: React.FC = () => {
             const seconds = Math.floor(differenceInSeconds % 60);
 
             updatedRow.tracker = `${hours}:${minutes}:${seconds}`;
-
-            try {
-              const trackerData = {
-                tracker: updatedRow.tracker,
-              };
-              putData(id, trackerData);
-            } catch (error) {}
             setTimeTracker(updatedRow.tracker);
           }
 
@@ -125,22 +134,28 @@ const EditableTable: React.FC = () => {
         return row;
       }),
     );
+  };
 
-    /**
-     * handle update
-     */
-
-    setTimeout(async () => {
-      const updatedData = {
-        [field]: value,
-        tracker: timeTracker,
-      };
-      try {
-        await putData(id, updatedData);
-      } catch (error) {
-        console.log(error);
-      }
-    }, 2000);
+  const handleSaved = async (row: any) => {
+    console.log('row', row);
+    setIsLoading(true);
+    const updatedData = {
+      id: row?.id,
+      name: row?.name,
+      ticket: row?.ticket,
+      time_start: row?.time_start,
+      time_end: row?.time_end,
+      tracker: row?.tracker,
+      status: row?.status,
+      notes: row?.notes,
+    };
+    try {
+      await putData(row._id, updatedData);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const calculateTotalTime = () => {
@@ -179,8 +194,6 @@ const EditableTable: React.FC = () => {
       created_at: moment(dateNow, 'MMMM DD, YYYY').startOf('day').utc().format() || undefined,
     };
 
-    console.log('value', params);
-
     try {
       const { data } = await getData(params);
       setData(data);
@@ -203,7 +216,7 @@ const EditableTable: React.FC = () => {
   }, [dateNow, watcher]);
 
   return (
-    <div>
+    <div style={{ width: '1419px' }}>
       <Box sx={{ width: '500px', margin: '10px auto 10px auto' }}>
         <Calendar showDetailsHandle={showDetailsHandle} />
       </Box>
@@ -225,6 +238,7 @@ const EditableTable: React.FC = () => {
                 <TableCell>Tracker</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Notes</TableCell>
+                <TableCell>Save</TableCell>
                 <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
@@ -369,6 +383,15 @@ const EditableTable: React.FC = () => {
                   <TableCell sx={classes.tabCell}>
                     <IconButton onClick={() => handleOpenDrawer(row)}>
                       <DescriptionIcon />
+                    </IconButton>
+                  </TableCell>
+                  <TableCell sx={classes.tabCell}>
+                    <IconButton onClick={() => handleSaved(row)}>
+                      {isLoading ? (
+                        <Typography sx={{ fontSize: '9px' }}>Saving...</Typography>
+                      ) : (
+                        <AddTaskIcon />
+                      )}
                     </IconButton>
                   </TableCell>
                   <TableCell sx={classes.tabCell}>
