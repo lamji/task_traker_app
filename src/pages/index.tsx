@@ -4,10 +4,8 @@ import { Home } from '@components/index';
 
 export default function main(): JSX.Element {
   return (
-    <Page title="Home">
-      <Section>
-        <Home />
-      </Section>
+    <Page title="Home" showHeader={false}>
+      <p>test</p>
     </Page>
   );
 }

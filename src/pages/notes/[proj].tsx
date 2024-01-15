@@ -10,16 +10,23 @@ export default function index() {
     { id: 1, projectName: 'Loyalty App', user: 'spr_Otis', password: 'P@$$w0rd', disabled: true },
     { id: 2, projectName: 'Trecs', user: 'userB', password: 'passB', disabled: true },
     {
-      id: 2,
+      id: 3,
       projectName: 'Central',
       user: 'billywong12@yopmail.com',
       password: 'P@$$w0rd1',
       disabled: true,
     },
+    {
+      id: 4,
+      projectName: 'LSGH',
+      user: 'ingrid.rubio',
+      password: 'F9PPpwlp@',
+      disabled: true,
+    },
   ];
 
   return (
-    <Page title="Notes">
+    <Page title="Notes" showHeader={true}>
       <Section>
         <Box sx={{ p: 2 }}>
           <Box sx={{ width: '700px' }}>

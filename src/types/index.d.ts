@@ -110,6 +110,7 @@ declare namespace cat {
     title: string;
     className?: string;
     children: React.ReactNode;
+    showHeader: boolean;
   }
 
   interface RatingsProps {
